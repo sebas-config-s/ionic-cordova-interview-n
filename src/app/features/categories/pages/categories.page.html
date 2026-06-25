@@ -1,0 +1,51 @@
+<ion-header [translucent]="true">
+  <ion-toolbar color="primary">
+    <ion-title>Categorías</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+
+  @if (categories().length === 0) {
+    <div class="empty-state">
+      <ion-icon name="pricetag-outline"></ion-icon>
+      <p>Sin categorías</p>
+      <ion-note>Pulsa + para crear una</ion-note>
+    </div>
+  } @else {
+    <ion-list>
+      @for (cat of categories(); track cat.id) {
+        <ion-item-sliding #sliding>
+
+          <ion-item>
+            <span class="color-dot" [style.background]="cat.color" slot="start"></span>
+            <ion-label>
+              <h2>{{ cat.name }}</h2>
+              <ion-note>{{ taskCountFor()(cat.id) }} tarea(s)</ion-note>
+            </ion-label>
+          </ion-item>
+
+          <ion-item-options side="start">
+            <ion-item-option color="warning" (click)="editCategory(cat, sliding)">
+              <ion-icon slot="icon-only" name="create"></ion-icon>
+            </ion-item-option>
+          </ion-item-options>
+
+          <ion-item-options side="end">
+            <ion-item-option color="danger" expandable (click)="deleteCategory(cat, sliding)">
+              <ion-icon slot="icon-only" name="trash"></ion-icon>
+            </ion-item-option>
+          </ion-item-options>
+
+        </ion-item-sliding>
+      }
+    </ion-list>
+  }
+
+  <ion-fab slot="fixed" vertical="bottom" horizontal="end">
+    <ion-fab-button (click)="addCategory()">
+      <ion-icon name="add"></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
+
+</ion-content>
