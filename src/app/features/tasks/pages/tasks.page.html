@@ -1,0 +1,111 @@
+<ion-header [translucent]="true">
+  <ion-toolbar color="primary">
+    <ion-title>Mis Tareas</ion-title>
+    <ion-buttons slot="end">
+      @if (pendingCount() > 0) {
+        <ion-badge class="pending-badge" color="warning">
+          {{ pendingCount() }} pendientes
+        </ion-badge>
+      }
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+
+  <div class="filter-row">
+    <ion-chip
+      [color]="selectedCategoryId() === null ? 'primary' : 'medium'"
+      (click)="filterBy(null)">
+      <ion-label>Todas</ion-label>
+    </ion-chip>
+
+    @for (cat of categories(); track cat.id) {
+      <ion-chip [ngStyle]="chipStyles()[cat.id]" (click)="filterBy(cat.id)">
+        <ion-label>{{ cat.name }}</ion-label>
+      </ion-chip>
+    }
+  </div>
+
+  @if (showForm()) {
+    <ion-card class="add-form-card">
+      <ion-card-content>
+        <ion-item lines="none">
+          <ion-label position="stacked">Nueva tarea</ion-label>
+          <input
+            class="task-input"
+            [(ngModel)]="newTitle"
+            placeholder="¿Qué hay que hacer?"
+            (keyup.enter)="submitTask()"
+            autofocus />
+        </ion-item>
+
+        @if (categories().length > 0) {
+          <ion-item lines="none">
+            <ion-select
+              [(ngModel)]="newCategoryId"
+              placeholder="Categoría (opcional)"
+              interface="action-sheet">
+              <ion-select-option [value]="null">Sin categoría</ion-select-option>
+              @for (cat of categories(); track cat.id) {
+                <ion-select-option [value]="cat.id">{{ cat.name }}</ion-select-option>
+              }
+            </ion-select>
+          </ion-item>
+        }
+
+        <div class="form-actions">
+          <ion-button fill="clear" color="medium" (click)="cancelForm()">Cancelar</ion-button>
+          <ion-button (click)="submitTask()" [disabled]="!newTitle.trim()">Agregar</ion-button>
+        </div>
+      </ion-card-content>
+    </ion-card>
+  }
+
+  @if (filteredTasks().length === 0) {
+    <div class="empty-state">
+      <ion-icon name="checkmark-done-outline"></ion-icon>
+      <p>No hay tareas aquí</p>
+      <ion-note>Pulsa + para agregar una</ion-note>
+    </div>
+  } @else {
+    <ion-list>
+      @for (task of filteredTasks(); track task.id) {
+        <ion-item-sliding>
+          <ion-item [class.task-item--completed]="task.completed">
+            <ion-checkbox
+              slot="start"
+              [checked]="task.completed"
+              (ionChange)="toggleTask(task.id)">
+            </ion-checkbox>
+            <ion-label>
+              <span [class.task-title--done]="task.completed">{{ task.title }}</span>
+              @if (getCategoryForTask(task); as cat) {
+                <div>
+                  <ion-badge class="category-badge" [style.--background]="cat.color">
+                    {{ cat.name }}
+                  </ion-badge>
+                </div>
+              }
+            </ion-label>
+          </ion-item>
+
+          <ion-item-options side="end">
+            <ion-item-option color="danger" expandable (click)="deleteTask(task.id)">
+              <ion-icon slot="icon-only" name="trash"></ion-icon>
+            </ion-item-option>
+          </ion-item-options>
+        </ion-item-sliding>
+      }
+    </ion-list>
+  }
+
+  @if (!showForm()) {
+    <ion-fab slot="fixed" vertical="bottom" horizontal="end">
+      <ion-fab-button (click)="openForm()">
+        <ion-icon name="add"></ion-icon>
+      </ion-fab-button>
+    </ion-fab>
+  }
+
+</ion-content>
