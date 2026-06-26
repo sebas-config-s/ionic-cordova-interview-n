@@ -5,23 +5,33 @@
 </ion-header>
 
 <ion-content [fullscreen]="true">
-
   <ion-card class="rc-info-card">
     <ion-card-header>
       <ion-icon name="cloud-outline" class="rc-info-card__icon"></ion-icon>
       <ion-card-title>Firebase Remote Config</ion-card-title>
-      <ion-card-subtitle>Feature flags en tiempo real</ion-card-subtitle>
+      <ion-card-subtitle
+        >Feature flags en tiempo real y/o al recargar la App</ion-card-subtitle
+      >
     </ion-card-header>
     <ion-card-content>
       Remote Config permite activar o desactivar funcionalidades sin publicar
       una nueva versión de la app. El valor se obtiene desde Firebase y se
       aplica instantáneamente.
     </ion-card-content>
+    <ion-card-content>
+      En este caso se utiliza para mostrar u ocultar las estadísticas de tareas.
+      El flag <code>show_statistics</code> se puede cambiar desde la consola de
+      Firebase y la app reflejará el cambio en tiempo real al recargarla.
+    </ion-card-content>
   </ion-card>
 
   <ion-list inset>
     <ion-item>
-      <ion-icon name="stats-chart-outline" slot="start" color="primary"></ion-icon>
+      <ion-icon
+        name="stats-chart-outline"
+        slot="start"
+        color="primary"
+      ></ion-icon>
       <ion-label>
         <h3>Mostrar estadísticas</h3>
         <ion-note>Flag: <code>show_statistics</code></ion-note>
@@ -29,52 +39,58 @@
       <ion-toggle
         slot="end"
         [checked]="flags().showStatistics"
-        (ionChange)="toggleStatistics($event)">
+        (ionChange)="toggleStatistics($event)"
+      >
       </ion-toggle>
     </ion-item>
   </ion-list>
 
   <div class="flag-status">
     @if (flags().showStatistics) {
-      <ion-icon name="checkmark-circle" color="success"></ion-icon>
-      <span>Feature <strong>activa</strong></span>
+    <ion-icon name="checkmark-circle" color="success"></ion-icon>
+    <span>Feature <strong>activa</strong></span>
     } @else {
-      <ion-icon name="close-circle" color="medium"></ion-icon>
-      <span>Feature <strong>inactiva</strong></span>
+    <ion-icon name="close-circle" color="medium"></ion-icon>
+    <span>Feature <strong>inactiva</strong></span>
     }
   </div>
 
   @if (flags().showStatistics) {
-    <ion-card class="stats-card">
-      <ion-card-header>
-        <ion-card-title>Estadísticas de tareas</ion-card-title>
-        <ion-card-subtitle>Controlada por el feature flag</ion-card-subtitle>
-      </ion-card-header>
-      <ion-card-content>
-        <div class="stats-grid">
-          <div class="stat-item">
-            <span class="stat-item__value">{{ stats().total }}</span>
-            <span class="stat-item__label">Total</span>
-          </div>
-          <div class="stat-item">
-            <span class="stat-item__value stat-item__value--success">{{ stats().done }}</span>
-            <span class="stat-item__label">Completadas</span>
-          </div>
-          <div class="stat-item">
-            <span class="stat-item__value stat-item__value--warning">{{ stats().pending }}</span>
-            <span class="stat-item__label">Pendientes</span>
-          </div>
-          <div class="stat-item">
-            <span class="stat-item__value stat-item__value--primary">{{ stats().pct }}%</span>
-            <span class="stat-item__label">Progreso</span>
-          </div>
+  <ion-card class="stats-card">
+    <ion-card-header>
+      <ion-card-title>Estadísticas de tareas</ion-card-title>
+      <ion-card-subtitle>Controlada por el feature flag</ion-card-subtitle>
+    </ion-card-header>
+    <ion-card-content>
+      <div class="stats-grid">
+        <div class="stat-item">
+          <span class="stat-item__value">{{ stats().total }}</span>
+          <span class="stat-item__label">Total</span>
         </div>
+        <div class="stat-item">
+          <span class="stat-item__value stat-item__value--success"
+            >{{ stats().done }}</span
+          >
+          <span class="stat-item__label">Completadas</span>
+        </div>
+        <div class="stat-item">
+          <span class="stat-item__value stat-item__value--warning"
+            >{{ stats().pending }}</span
+          >
+          <span class="stat-item__label">Pendientes</span>
+        </div>
+        <div class="stat-item">
+          <span class="stat-item__value stat-item__value--primary"
+            >{{ stats().pct }}%</span
+          >
+          <span class="stat-item__label">Progreso</span>
+        </div>
+      </div>
 
-        <div class="progress-bar">
-          <div class="progress-bar__fill" [style.width.%]="stats().pct"></div>
-        </div>
-      </ion-card-content>
-    </ion-card>
+      <div class="progress-bar">
+        <div class="progress-bar__fill" [style.width.%]="stats().pct"></div>
+      </div>
+    </ion-card-content>
+  </ion-card>
   }
-
 </ion-content>
