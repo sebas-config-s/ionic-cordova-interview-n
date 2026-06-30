@@ -9,13 +9,14 @@ Aplicación de gestión de tareas construida con **Ionic 8** y **Angular 20**, c
 1. [Funcionalidades](#funcionalidades)
 2. [Demo en video](#demo-en-video)
 3. [Capturas de pantalla](#capturas-de-pantalla)
-4. [Requisitos previos](#requisitos-previos)
-5. [Instalación y ejecución en desarrollo](#instalación-y-ejecución-en-desarrollo)
-6. [Compilar para Android](#compilar-para-android)
-7. [Compilar para iOS](#compilar-para-ios)
-8. [Estructura del proyecto](#estructura-del-proyecto)
-9. [Firebase Remote Config](#firebase-remote-config)
-10. [Preguntas técnicas](#preguntas-técnicas)
+4. [Descarga APK](#descarga-apk)
+5. [Requisitos previos](#requisitos-previos)
+6. [Instalación y ejecución en desarrollo](#instalación-y-ejecución-en-desarrollo)
+7. [Compilar para Android](#compilar-para-android)
+8. [Compilar para iOS](#compilar-para-ios)
+9. [Estructura del proyecto](#estructura-del-proyecto)
+10. [Firebase Remote Config](#firebase-remote-config)
+11. [Preguntas técnicas](#preguntas-técnicas)
 
 ---
 
@@ -141,6 +142,14 @@ Aplicación de gestión de tareas construida con **Ionic 8** y **Angular 20**, c
 
 ---
 
+## Descarga APK
+
+> Versión de prueba compilada para Android (debug).
+
+[Descargar app-debug.apk](https://github.com/sebas-config-s/ionic-cordova-interview-n/releases/download/v1.0.0/app-debug.apk)
+
+---
+
 ## Requisitos previos
 
 | Herramienta    | Versión mínima       | Verificar         |
@@ -181,44 +190,55 @@ ionic serve
 
 ## Compilar para Android
 
-### Preparación del entorno
+### Pasos realizados
 
-1. Instalar **Android Studio** y configurar el SDK de Android.
-2. Definir la variable de entorno `ANDROID_HOME`:
+**1. Instalar Cordova**
 
 ```bash
-# Windows (PowerShell)
-$env:ANDROID_HOME = "C:\Users\<tu-usuario>\AppData\Local\Android\Sdk"
-$env:PATH += ";$env:ANDROID_HOME\platform-tools;$env:ANDROID_HOME\tools"
+npm install cordova --save-dev
 ```
 
-3. Aceptar las licencias del SDK:
+**2. Build de la app web**
 
 ```bash
-sdkmanager --licenses
-```
-
-### Compilar y ejecutar
-
-```bash
-# 1. Build de producción de la web
 npm run build
-
-# 2. Agregar la plataforma Android (solo la primera vez)
-ionic cordova platform add android
-
-# 3. Ejecutar en emulador Android
-ionic cordova emulate android
-
-# 4. Ejecutar en dispositivo físico (USB debugging activado)
-ionic cordova run android --device
-
-# 5. Generar APK de producción
-ionic cordova build android --prod --release
-# → El APK queda en: platforms/android/app/build/outputs/apk/release/
 ```
 
-> **Nota:** Si usas un emulador, asegúrate de tener creado un AVD (Android Virtual Device) desde Android Studio > Device Manager.
+**3. Agregar la plataforma Android**
+
+```bash
+npx cordova platform add android
+```
+
+**4. Abrir en Android Studio**
+
+Abrir la carpeta generada directamente en Android Studio:
+
+```
+platforms/android
+```
+
+**5. Fix de build — agregar import en `cordova.gradle`**
+
+El build falla con un error de clase no encontrada en Groovy. Solución: agregar el import de `XmlParser` en `platforms/android/CordovaLib/cordova.gradle`:
+
+```groovy
+import java.util.regex.Pattern
+import io.github.g00fy2.versioncompare.Version
+import groovy.xml.XmlParser  // agregar esta línea
+```
+
+**6. Generar APK**
+
+En Android Studio: `Build > Build Bundle(s) / APK(s) > Build APK(s)`
+
+El archivo queda en:
+
+```
+platforms/android/app/build/outputs/apk/debug/app-debug.apk
+```
+
+> **Nota:** La carpeta `platforms/android` es generada por Cordova y no está en el repositorio. Hay que ejecutar los pasos 1–3 antes de abrir Android Studio.
 
 ---
 
@@ -238,32 +258,6 @@ npm install -g ios-deploy
 # Instalar CocoaPods (gestión de dependencias iOS)
 sudo gem install cocoapods
 ```
-
-### Compilar y ejecutar
-
-```bash
-# 1. Build de producción de la web
-npm run build
-
-# 2. Agregar la plataforma iOS (solo la primera vez)
-ionic cordova platform add ios
-
-# 3. Instalar dependencias de CocoaPods
-cd platforms/ios && pod install && cd ../..
-
-# 4. Ejecutar en simulador iOS
-ionic cordova emulate ios
-
-# 5. Ejecutar en dispositivo físico
-ionic cordova run ios --device
-
-# 6. Abrir en Xcode para firma y distribución
-open platforms/ios/ionic-tasks.xcworkspace
-```
-
-> **Nota:** Para ejecutar en un dispositivo físico iOS es necesario contar con una cuenta de Apple Developer y configurar el signing en Xcode.
-
----
 
 ## Estructura del proyecto
 
