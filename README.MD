@@ -7,14 +7,15 @@ Aplicación de gestión de tareas construida con **Ionic 8** y **Angular 20**, c
 ## Tabla de contenidos
 
 1. [Funcionalidades](#funcionalidades)
-2. [Capturas de pantalla](#capturas-de-pantalla)
-3. [Requisitos previos](#requisitos-previos)
-4. [Instalación y ejecución en desarrollo](#instalación-y-ejecución-en-desarrollo)
-5. [Compilar para Android](#compilar-para-android)
-6. [Compilar para iOS](#compilar-para-ios)
-7. [Estructura del proyecto](#estructura-del-proyecto)
-8. [Firebase Remote Config](#firebase-remote-config)
-9. [Preguntas técnicas](#preguntas-técnicas)
+2. [Demo en video](#demo-en-video)
+3. [Capturas de pantalla](#capturas-de-pantalla)
+4. [Requisitos previos](#requisitos-previos)
+5. [Instalación y ejecución en desarrollo](#instalación-y-ejecución-en-desarrollo)
+6. [Compilar para Android](#compilar-para-android)
+7. [Compilar para iOS](#compilar-para-ios)
+8. [Estructura del proyecto](#estructura-del-proyecto)
+9. [Firebase Remote Config](#firebase-remote-config)
+10. [Preguntas técnicas](#preguntas-técnicas)
 
 ---
 
@@ -27,6 +28,16 @@ Aplicación de gestión de tareas construida con **Ionic 8** y **Angular 20**, c
 | **Estadísticas**  | Tarjeta con total, completadas, pendientes y porcentaje de avance      |
 | **Feature Flags** | Control de visibilidad de funcionalidades vía Firebase Remote Config   |
 | **Persistencia**  | Datos guardados en `localStorage`; no requiere backend                 |
+
+---
+
+## Demo en video
+
+<div align="center">
+  <b>Recorrido completo de la aplicación</b>
+  <br/><br/>
+  <video src="src/assets/video/recording-ionic-tasks.mp4" controls width="320" style="border-radius: 12px;"></video>
+</div>
 
 ---
 
