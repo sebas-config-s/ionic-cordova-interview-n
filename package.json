@@ -9,7 +9,8 @@
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
-    "lint": "ng lint"
+    "lint": "ng lint",
+    "postinstall": "node scripts/patch-cordova-ios.js"
   },
   "private": true,
   "dependencies": {
@@ -44,6 +45,7 @@
     "@typescript-eslint/parser": "^8.18.0",
     "cordova": "^13.0.0",
     "cordova-android": "^15.0.0",
+    "cordova-ios": "8.1.0",
     "cordova-plugin-device": "2.0.2",
     "cordova-plugin-ionic-keyboard": "^2.0.5",
     "cordova-plugin-ionic-webview": "^5.0.0",
