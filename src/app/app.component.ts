@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { IonApp, IonRouterOutlet } from '@ionic/angular/standalone';
+import { Platform } from '@ionic/angular/standalone';
 import { RemoteConfigService } from '@core/services/remote-config.service';
 
 @Component({
@@ -8,7 +9,7 @@ import { RemoteConfigService } from '@core/services/remote-config.service';
   imports: [IonApp, IonRouterOutlet],
 })
 export class AppComponent {
-  constructor(remoteConfig: RemoteConfigService) {
-    remoteConfig.fetchAndActivate();
+  constructor(platform: Platform, remoteConfig: RemoteConfigService) {
+    platform.ready().then(() => remoteConfig.fetchAndActivate());
   }
 }
