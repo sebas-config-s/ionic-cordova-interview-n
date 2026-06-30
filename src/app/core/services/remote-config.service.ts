@@ -1,6 +1,6 @@
 import { Injectable, signal } from '@angular/core';
 import { getApp, getApps, initializeApp } from 'firebase/app';
-import { fetchAndActivate, getBoolean, getRemoteConfig, onConfigUpdate } from 'firebase/remote-config';
+import { fetchAndActivate, getBoolean, getRemoteConfig } from 'firebase/remote-config';
 import { environment } from '../../../environments/environment';
 
 export interface FeatureFlags {
@@ -41,11 +41,12 @@ export class RemoteConfigService {
   async fetchAndActivate(): Promise<void> {
     await fetchAndActivate(this.rc);
     this.readFlags();
+    this.startPolling();
+  }
 
-    onConfigUpdate(this.rc, {
-      next: () => fetchAndActivate(this.rc).then(() => this.readFlags()),
-      error: () => {},
-      complete: () => {},
-    });
+  private startPolling(): void {
+    setInterval(() => {
+      fetchAndActivate(this.rc).then(() => this.readFlags());
+    }, 5_000);
   }
 }
