@@ -37,7 +37,12 @@ Aplicación de gestión de tareas construida con **Ionic 8** y **Angular 20**, c
 <div align="center">
   <b>Recorrido completo de la aplicación</b>
   <br/><br/>
-  <video src="src/assets/video/recording-ionic-tasks.mp4" controls width="320" style="border-radius: 12px;"></video>
+  <p>
+    GitHub no reproduce videos directamente.<br/>
+    Para ver la demo, abre el repositorio en <b>Visual Studio Code</b> y reproduce el archivo
+    <code>src/assets/video/recording-ionic-tasks.mp4</code>,
+    o <a href="src/assets/video/recording-ionic-tasks.mp4">descárgalo desde aquí</a>.
+  </p>
 </div>
 
 ---
