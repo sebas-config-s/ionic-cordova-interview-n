@@ -11,7 +11,7 @@ const DEFAULTS: FeatureFlags = {
   showStatistics: false,
 };
 
-const FETCH_INTERVAL_MS = environment.production ? 3_600_000 : 0;
+const FETCH_INTERVAL_MS = 0;
 
 @Injectable({ providedIn: 'root' })
 export class RemoteConfigService {
