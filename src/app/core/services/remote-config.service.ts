@@ -1,6 +1,6 @@
 import { Injectable, signal } from '@angular/core';
 import { getApp, getApps, initializeApp } from 'firebase/app';
-import { fetchAndActivate, getBoolean, getRemoteConfig } from 'firebase/remote-config';
+import { fetchAndActivate, getBoolean, getRemoteConfig, onConfigUpdate } from 'firebase/remote-config';
 import { environment } from '../../../environments/environment';
 
 export interface FeatureFlags {
@@ -10,6 +10,8 @@ export interface FeatureFlags {
 const DEFAULTS: FeatureFlags = {
   showStatistics: false,
 };
+
+const FETCH_INTERVAL_MS = environment.production ? 3_600_000 : 0;
 
 @Injectable({ providedIn: 'root' })
 export class RemoteConfigService {
@@ -22,9 +24,7 @@ export class RemoteConfigService {
     const app = getApps().length ? getApp() : initializeApp(environment.firebaseConfig);
     const rc = getRemoteConfig(app);
     rc.defaultConfig = { show_statistics: DEFAULTS.showStatistics };
-    if (!environment.production) {
-      rc.settings.minimumFetchIntervalMillis = 0;
-    }
+    rc.settings.minimumFetchIntervalMillis = FETCH_INTERVAL_MS;
     return rc;
   }
 
@@ -32,10 +32,20 @@ export class RemoteConfigService {
     this._flags.update(f => ({ ...f, [key]: value }));
   }
 
-  async fetchAndActivate(): Promise<void> {
-    await fetchAndActivate(this.rc);
+  private readFlags(): void {
     this._flags.set({
       showStatistics: getBoolean(this.rc, 'show_statistics'),
+    });
+  }
+
+  async fetchAndActivate(): Promise<void> {
+    await fetchAndActivate(this.rc);
+    this.readFlags();
+
+    onConfigUpdate(this.rc, {
+      next: () => fetchAndActivate(this.rc).then(() => this.readFlags()),
+      error: () => {},
+      complete: () => {},
     });
   }
 }
