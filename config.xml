@@ -4,8 +4,10 @@
     <description>An awesome Ionic/Cordova app.</description>
     <author email="hi@ionicframework.com" href="https://ionicframework.com/">Ionic Framework Team</author>
     <content src="index.html" />
-    <access origin="*" />
-    <allow-intent href="http://*/*" />
+    <!-- Restrict to Firebase domains used by the app -->
+    <access origin="https://*.googleapis.com" />
+    <access origin="https://*.firebaseio.com" />
+    <access origin="https://*.firebase.google.com" />
     <allow-intent href="https://*/*" />
     <allow-intent href="tel:*" />
     <allow-intent href="sms:*" />
@@ -19,7 +21,7 @@
     <preference name="SplashScreen" value="screen" />
     <preference name="SplashScreenDelay" value="3000" />
     <platform name="android">
-        <preference name="Scheme" value="http" />
+        <preference name="Scheme" value="https" />
         <edit-config file="app/src/main/AndroidManifest.xml" mode="merge" target="/manifest/application" xmlns:android="http://schemas.android.com/apk/res/android">
             <application android:networkSecurityConfig="@xml/network_security_config" />
         </edit-config>

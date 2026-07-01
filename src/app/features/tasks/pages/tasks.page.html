@@ -80,7 +80,7 @@
             </ion-checkbox>
             <ion-label>
               <span [class.task-title--done]="task.completed">{{ task.title }}</span>
-              @if (getCategoryForTask(task); as cat) {
+              @if (task.categoryId && categoryMap().get(task.categoryId); as cat) {
                 <div>
                   <ion-badge class="category-badge" [style.--background]="cat.color">
                     {{ cat.name }}

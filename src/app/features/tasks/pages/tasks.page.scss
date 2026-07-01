@@ -4,9 +4,25 @@
 
 .filter-row {
   display: flex;
-  flex-wrap: wrap;
+  flex-wrap: nowrap;
+  overflow-x: auto;
   gap: 6px;
-  padding: 12px 16px 4px;
+  padding: 12px 16px 8px;
+  -webkit-overflow-scrolling: touch;
+
+  &::-webkit-scrollbar { display: none; }
+  scrollbar-width: none;
+
+  ion-chip {
+    flex-shrink: 0;
+    max-width: 120px;
+
+    ion-label {
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+  }
 }
 
 .add-form-card {
