@@ -11,7 +11,7 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content [fullscreen]="true">
+<ion-content [fullscreen]="true" [scrollY]="false">
 
   <div class="filter-row">
     <ion-chip
@@ -69,9 +69,10 @@
       <ion-note>Pulsa + para agregar una</ion-note>
     </div>
   } @else {
-    <ion-list>
-      @for (task of filteredTasks(); track task.id) {
-        <ion-item-sliding>
+    <cdk-virtual-scroll-viewport [itemSize]="56" class="task-viewport">
+      <ion-list>
+        <ion-item-sliding
+          *cdkVirtualFor="let task of filteredTasks(); trackBy: trackById">
           <ion-item [class.task-item--completed]="task.completed">
             <ion-checkbox
               slot="start"
@@ -96,8 +97,8 @@
             </ion-item-option>
           </ion-item-options>
         </ion-item-sliding>
-      }
-    </ion-list>
+      </ion-list>
+    </cdk-virtual-scroll-viewport>
   }
 
   @if (!showForm()) {
