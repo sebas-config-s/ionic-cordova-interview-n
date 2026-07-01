@@ -10,8 +10,6 @@ import {
 } from '@ionic/angular/standalone';
 import { addIcons } from 'ionicons';
 import { add, checkmarkDoneOutline, trash } from 'ionicons/icons';
-import { Category } from '../../categories/models/category.model';
-import { Task } from '../models/task.model';
 import { CategoryService } from '../../categories/services/category.service';
 import { TaskService } from '../services/task.service';
 
@@ -39,6 +37,10 @@ export class TasksPage {
 
   tasks = this.taskService.tasks;
   categories = this.categoryService.categories;
+
+  readonly categoryMap = computed(() =>
+    new Map(this.categories().map(c => [c.id, c]))
+  );
 
   filteredTasks = computed(() => {
     const catId = this.selectedCategoryId();
@@ -74,10 +76,6 @@ export class TasksPage {
     this.selectedCategoryId.set(categoryId);
   }
 
-  getCategoryForTask(task: Task): Category | undefined {
-    return task.categoryId ? this.categoryService.getById(task.categoryId) : undefined;
-  }
-
   toggleTask(id: string): void {
     this.taskService.toggle(id);
   }
@@ -103,7 +101,4 @@ export class TasksPage {
     this.showForm.set(false);
   }
 
-  trackById(_: number, item: Task | Category): string {
-    return item.id;
-  }
 }
