@@ -1,6 +1,7 @@
 import { ChangeDetectionStrategy, Component, computed, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { NgStyle } from '@angular/common';
+import { CdkVirtualScrollViewport, CdkVirtualForOf, CdkFixedSizeVirtualScroll } from '@angular/cdk/scrolling';
 import {
   IonBadge, IonButton, IonButtons, IonCard, IonCardContent,
   IonCheckbox, IonChip, IonContent, IonFab, IonFabButton,
@@ -12,6 +13,7 @@ import { addIcons } from 'ionicons';
 import { add, checkmarkDoneOutline, trash } from 'ionicons/icons';
 import { CategoryService } from '../../categories/services/category.service';
 import { TaskService } from '../services/task.service';
+import { Task } from '../models/task.model';
 
 @Component({
   selector: 'app-tasks',
@@ -20,6 +22,7 @@ import { TaskService } from '../services/task.service';
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
     FormsModule, NgStyle,
+    CdkVirtualScrollViewport, CdkVirtualForOf, CdkFixedSizeVirtualScroll,
     IonHeader, IonToolbar, IonTitle, IonContent, IonButtons,
     IonList, IonItem, IonLabel, IonCheckbox, IonBadge, IonNote,
     IonItemSliding, IonItemOptions, IonItemOption,
@@ -101,4 +104,7 @@ export class TasksPage {
     this.showForm.set(false);
   }
 
+  trackById(_: number, task: Task): string {
+    return task.id;
+  }
 }
