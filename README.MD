@@ -251,6 +251,27 @@ platforms/android/app/build/outputs/apk/debug/app-debug.apk
 
 > Requiere **macOS** con Xcode instalado.
 
+### Evidencia de compilación en iOS
+
+La siguiente captura muestra el build de iOS iniciado y procesado exitosamente desde el **dashboard de Ionic Framework (Ionic Appflow)**. El servicio de CI/CD en la nube de Ionic tomó el código fuente, lo compiló para la plataforma iOS y confirmó que el proyecto es válido y compilable sin necesidad de tener macOS o Xcode instalados localmente.
+
+<div align="center">
+  <img src="src/assets/screenshots/evidence-buil-in-ios.png" width="800" alt="Evidencia de compilación exitosa en el dashboard de Ionic Appflow"/>
+  <br/>
+  <sub><i>Build exitoso en Ionic Appflow — el proyecto compila correctamente para iOS</i></sub>
+</div>
+
+> **¿Por qué no se generó el archivo `.ipa`?**
+>
+> Ionic Appflow puede compilar el código para iOS en sus servidores, pero para **exportar y descargar el `.ipa`** resultante es obligatorio proporcionar credenciales de firma de Apple:
+>
+> - Un **Distribution Certificate** (`.p12`) emitido por la cuenta de Apple Developer.
+> - Un **Provisioning Profile** (`.mobileprovision`) asociado al bundle ID de la app.
+>
+> Ambos artefactos solo se pueden generar con una **cuenta Apple Developer activa** (`Apple Developer Program`, USD 99/año). Sin ellos, Ionic Appflow completa la compilación pero bloquea la descarga del `.ipa`. La evidencia anterior demuestra que el código y la configuración son correctos; la ausencia del `.ipa` es una restricción de licenciamiento de Apple, no un problema de código.
+
+---
+
 ### Preparación del entorno
 
 ```bash
